@@ -2,6 +2,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,8 +22,18 @@ namespace WorkerService1
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
-                await Task.Delay(1000, stoppingToken);
+                foreach (DriveInfo drive in DriveInfo.GetDrives())
+                {
+                    var dirs = Directory.GetDirectories(drive.ToString());
+                    foreach (var  dri in dirs )
+                    {
+                       
+                        Console.WriteLine(dri);
+                    }
+                   
+                }
+
+                    await Task.Delay(1000, stoppingToken);
             }
         }
     }
